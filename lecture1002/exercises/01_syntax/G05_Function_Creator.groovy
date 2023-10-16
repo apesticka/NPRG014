@@ -4,7 +4,7 @@ Closure computeTax = {rate, amount -> amount + amount * rate / 100}
 //so that it creates correct taxation functions
 
 Closure taxatorFactory = {rate ->
-
+    computeTax.curry(rate)
 }
 
 Closure lowRateVat = taxatorFactory 5

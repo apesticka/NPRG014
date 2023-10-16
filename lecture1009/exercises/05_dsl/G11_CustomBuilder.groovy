@@ -1,15 +1,19 @@
 class MyIndentingBuilder {
 
-    def indent = 1
+    def indent = 4
+    def indentation = 4
 
     def invokeMethod(String methodName, args) {
         def result = '';
+        
         if (args.size() > 0) {
             Closure closure = args[0]
             closure.delegate = this
+            indent += indentation
             result = closure()
+            indent -= indentation
         }
-        return "<$methodName>\n${' ' * indent}$result\n${' ' * (indent - 1)}</$methodName>"
+        return "<$methodName>\n${' ' * indent}$result\n${' ' * (indent - indentation)}</$methodName>"
     }
 }
 

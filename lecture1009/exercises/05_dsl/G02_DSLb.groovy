@@ -1,5 +1,5 @@
 def o1 = order pizza with tomato and mushrooms to "Malostranske namesti"
-def o2 = order cake with plums and apples and cream to "Malostranske namesti"
+def o2 = order cake with plums and apples and cream to "Malostranske namesti", 25
 def o3 = order pizza menuDuJour() to "Malostranske namesti"
 
 //TASK Add support for house numbers in address (aka to "Malostranske namesti", 25)
@@ -19,13 +19,14 @@ def order(requestedMeal) {
 class Order2 {
     Food meal
     String address = ''
+    int num = -1
     final meals = [
             pizza: new Pizza(order: this),
             cake: new Cake(order: this)
     ]
 
     String toString() {
-        "*An order of $meal to $address*"
+        "*An order of $meal to $address${num > 0 ? ", $num" : ""}*"
     }
 }
 
@@ -43,11 +44,11 @@ abstract class Food {
         this
     }
 
-    def to(address) {
+    def to(address, num = -1) {
         order.address = address
+        order.num = num
         order
     }
-    
 
     abstract String description();
 

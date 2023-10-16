@@ -64,4 +64,3 @@ final code = '''
 '''
 
 println 'Result: ' + shell.evaluate(code)
-

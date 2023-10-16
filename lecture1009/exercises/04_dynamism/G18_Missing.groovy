@@ -13,6 +13,10 @@ String myCode = '''
 create house
 move furniture
 '''
+def binding = new Binding()
+def shell = new GroovyShell(binding)
+binding.robot = slave
+shell.evaluate("robot.with {$myCode}")
 
 
 class Slave {
