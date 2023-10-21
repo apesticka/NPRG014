@@ -37,6 +37,15 @@ public class UnsupportedTransformation implements ASTTransformation {
         // http://docs.groovy-lang.org/docs/groovy-latest/html/api/org/codehaus/groovy/ast/stmt/package-summary.html
         // http://docs.groovy-lang.org/docs/groovy-latest/html/api/org/codehaus/groovy/ast/tools/package-summary.html        
         // http://docs.groovy-lang.org/docs/groovy-latest/html/api/org/codehaus/groovy/ast/tools/GeneralUtils.html        
+        
+        MethodNode annotatedMethod = astNodes[1]
+        
+        String name = annotatedMethod.name
+        
+        ASTNode statement = new AstBuilder().buildFromString("throw new UnsupportedOperationException(\"The $name operation is not supported\")")[0]
+        
+        def methodStatements = annotatedMethod.code.statements
+        methodStatements.add(0, statement)
     }
 }
 

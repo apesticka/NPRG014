@@ -14,6 +14,8 @@ import org.codehaus.groovy.transform.GroovyASTTransformation
 import org.codehaus.groovy.transform.GroovyASTTransformationClass
 import groovyjarjarasm.asm.Opcodes
 import static org.codehaus.groovy.control.CompilePhase.SEMANTIC_ANALYSIS
+import org.codehaus.groovy.ast.stmt.ExpressionStatement
+import org.codehaus.groovy.ast.expr.ConstantExpression
 
 @Retention(RetentionPolicy.SOURCE)
 @Target([ElementType.TYPE])
@@ -30,7 +32,11 @@ public @interface Zero {}
 public class ZeroTransformation implements ASTTransformation {
 
     public void visit(ASTNode[] astNodes, SourceUnit source) {
+        ClassNode annotatedClass = astNodes[1]
 
+        ASTNode statement = new ExpressionStatement(new ConstantExpression(0))
+
+        annotatedClass.addMethod("getZero", Opcodes.ACC_PUBLIC, ClassHelper.Integer_TYPE, [] as Parameter[], [] as ClassNode[], statement);
     }
 }
 
