@@ -1,4 +1,8 @@
 // 2022/2023
+
+import org.codehaus.groovy.ast.FieldNode
+import org.codehaus.groovy.control.CompilePhase
+
 import java.lang.annotation.ElementType
 import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy
@@ -29,7 +33,6 @@ public @interface CreatedAt {
     String name() default "";
 }
 
-
 @GroovyASTTransformation(phase = SEMANTIC_ANALYSIS)
 public class CreatedAtTransformation implements ASTTransformation {
 
@@ -40,7 +43,9 @@ public class CreatedAtTransformation implements ASTTransformation {
         // Also, generate a public final method returning the value stored in the field. The name of the method should be configurable through 
         // the annotation 'name' parameter.
         // Additionally, all existing methods of the class should be enhanced so that they reset the time stored in the field to the current time,
-        // whenever they are called, but ONLY if more than 1 second has elapsed since the last update to the time stored in the field.
+        // whenever they are called, but ONLY if more than 1 second has elapsed since the latest update to the time stored in the field.
+        // A new method, named "clearTimestamp()" must be added to the class. This method sets the time stored in the field to "0".
+
         // Fill in the missing AST generation code to make the script pass
         // You can take inspiration from exercises
         // Documentation and hints:
@@ -48,16 +53,53 @@ public class CreatedAtTransformation implements ASTTransformation {
         // http://docs.groovy-lang.org/docs/groovy-latest/html/api/org/codehaus/groovy/ast/package-summary.html
         // http://docs.groovy-lang.org/docs/groovy-latest/html/api/org/codehaus/groovy/ast/expr/package-summary.html
         // http://docs.groovy-lang.org/docs/groovy-latest/html/api/org/codehaus/groovy/ast/stmt/package-summary.html
-        // http://docs.groovy-lang.org/docs/groovy-latest/html/api/org/codehaus/groovy/ast/tools/package-summary.html        
+        // http://docs.groovy-lang.org/docs/groovy-latest/html/api/org/codehaus/groovy/ast/tools/package-summary.html
         // http://docs.groovy-lang.org/docs/groovy-latest/html/api/org/codehaus/groovy/ast/tools/GeneralUtils.html
-        
+
         // Use ClassHelper.long_TYPE to specify a long type.
         // buildFromString() returns an array, which holds a BlockStatement for the passed-in code as its first element.
         // ClassNode.addField() accepts an expression, which can be obtained from a BlockStatement as blockStatement.statements.expression
         // ClassNode.addMethod() accepts a BlockStatement
-        
-        //TODO Implement this method
-        
+
+        ClassNode clazz = astNodes[1]
+
+        AstBuilder builder = new AstBuilder()
+
+        // Adding the private 'instantiationTime' field
+        List<ASTNode> currentTimeNodes = builder.buildFromString(CompilePhase.SEMANTIC_ANALYSIS, "System.currentTimeMillis()")
+        BlockStatement currentTimeStatement = currentTimeNodes[0]
+        Expression currentTimeExpression = currentTimeStatement.statements[0].expression
+
+        clazz.addField("instantiationTime", Opcodes.ACC_PRIVATE, ClassHelper.long_TYPE, currentTimeExpression)
+
+        // Changing existing methods
+        List<ASTNode> existingMethods = clazz.getMethods()
+        for (MethodNode methodNode : existingMethods) {
+            String statements = '''
+                if (System.currentTimeMillis() > this.instantiationTime + 1000) {
+                    this.instantiationTime = System.currentTimeMillis()
+                }
+            '''
+
+            List<ASTNode> nodes = builder.buildFromString(CompilePhase.SEMANTIC_ANALYSIS, statements)
+            def methodStatements = methodNode.code.statements
+            methodStatements.add(0, nodes[0])
+
+            println()
+        }
+
+        // Adding the public getter
+        String methodName = astNodes[0].members.name.value
+
+        List<ASTNode> getterNodes = builder.buildFromString(CompilePhase.SEMANTIC_ANALYSIS, "return this.instantiationTime")
+        BlockStatement getterStatement = getterNodes[0]
+
+        clazz.addMethod(methodName, Opcodes.ACC_PUBLIC | Opcodes.ACC_FINAL, ClassHelper.long_TYPE, new Parameter[0], new ClassNode[0], getterStatement)
+
+        List<ASTNode> clearNodes = builder.buildFromString(CompilePhase.SEMANTIC_ANALYSIS, "this.instantiationTime = 0")
+        BlockStatement clearStatement = clearNodes[0]
+
+        clazz.addMethod("clearTimestamp", Opcodes.ACC_PUBLIC, null, new Parameter[0], new ClassNode[0], clearStatement)
     }
 }
 
@@ -106,5 +148,8 @@ assert calculator.sum == 8
 //The timestamp should not have been updated since the pause was shorter than 1s
 assert oldTimeStamp == calculator.timestamp()
 assert calculator.timestamp() == calculator.timestamp()
+
+calculator.clearTimestamp()
+assert calculator.timestamp() == 0
 
 println 'well done'
