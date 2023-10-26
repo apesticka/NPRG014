@@ -130,7 +130,6 @@ def build(builder, String specification) {
     def binding = new Binding()
     binding['builder'] = builder
     new GroovyShell(binding).evaluate(specification)
-    return builder
 }
 
 //Custom expression to display. It should be eventually pretty-printed as 10 + x * (2 - 3) / 8 ^ (9 - 5)
@@ -157,10 +156,11 @@ builder.'+' {
 '''
 
 //XML builder building an XML document
-def xml = build(new groovy.xml.MarkupBuilder(), description)
-println xml.toString()
+build(new groovy.xml.MarkupBuilder(), description)
 
-//NumericExpressionBuilder displaying the expression
-def expression = build(new NumericExpressionBuilder(), description)
+//NumericExpressionBuilder building a hierarchy of Items to represent the expression
+def expressionBuilder = new NumericExpressionBuilder()
+build(expressionBuilder, description)
+def expression = expressionBuilder.rootItem()
 println (expression.toString())
 assert '10 + x * (2 - 3) / 8 ^ (9 - 5)' == expression.toString()
