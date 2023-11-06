@@ -53,7 +53,23 @@ Supplementary materials for the course of "Concepts of Modern Programming Langua
 * The “lecture1016/slides” holds the slides for the lecture
 
 
-## Lesson 4 - 23rd December 2023
+## Lesson 4 - 30th October 2023
+### Agenda
+* Bytecode
+* Statically-typed languages (Scala) - Part I
+
+### Preparation
+* Grab and install SBT (http://www.scala-sbt.org/)
+* Install Java JDK (if you don't have it installed) from the Java download site
+* Checkout this repository to get all examples
+* Go to lecture-scala/exercises-homework and run "sbt compile" to download all necessary packages (Scala and related libraries)
+
+### Resources
+* Exercises to work with during the lesson and the homework are located in the lecture-scala/exercises-homework” folder
+* The “lecture-scala/slides” holds the slides for the lecture
+
+
+## Lesson 5 - 6th November 2023
 ### Agenda
 
 * Concurrency abstractions in modern languages
@@ -73,22 +89,6 @@ Supplementary materials for the course of "Concepts of Modern Programming Langua
 * The “lecture1023/slides” holds the slides for the lecture
 
 
-## Lesson 5 - 6th November 2023
-### Agenda
-* Bytecode
-* Statically-typed languages (Scala) - Part I
-
-### Preparation
-* Grab and install SBT (http://www.scala-sbt.org/)
-* Install Java JDK (if you don't have it installed) from the Java download site
-* Checkout this repository to get all examples
-* Go to lecture-scala/exercises-homework and run "sbt compile" to download all necessary packages (Scala and related libraries)
-
-### Resources
-* Exercises to work with during the lesson and the homework are located in the lecture-scala/exercises-homework” folder
-* The “lecture-scala/slides” holds the slides for the lecture
-
-
 ## Lesson 6 - 13th November 2023
 ### Agenda
 * Statically-typed languages (Scala) - Part II
@@ -97,7 +97,7 @@ Supplementary materials for the course of "Concepts of Modern Programming Langua
 * Same as for Lesson 5
 
 
-## Lesson 7 - 20th November 2023
+## Lesson 7 - 13th November 2023
 ### Agenda
 * Statically-typed languages (Scala) - Part III
 
@@ -105,9 +105,8 @@ Supplementary materials for the course of "Concepts of Modern Programming Langua
 * Same as for Lesson 5
 
 
-## Lesson 8 - 4th December 2023
+## Lesson 8 - 20th November 2023
 ### Agenda
-* Statically-typed languages (Scala) - Part V
 * Introduction to prototype-based languages (IO)
 
 ### Preparation
