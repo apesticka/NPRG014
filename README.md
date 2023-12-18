@@ -94,18 +94,25 @@ Supplementary materials for the course of "Concepts of Modern Programming Langua
 * Statically-typed languages (Scala) - Part II
 
 ### Preparation
-* Same as for Lesson 5
+* Same as for Lesson 4
 
 
-## Lesson 7 - 13th November 2023
+## Lesson 7 - 20th November 2023
 ### Agenda
 * Statically-typed languages (Scala) - Part III
 
 ### Preparation
-* Same as for Lesson 5
+* Same as for Lesson 4
+
+## Lesson 8 - 27th November 2023
+### Agenda
+* Statically-typed languages (Scala) - Part IV
+
+### Preparation
+* Same as for Lesson 4
 
 
-## Lesson 8 - 20th November 2023
+## Lesson 9 - 4th December 2023
 ### Agenda
 * Introduction to prototype-based languages (IO)
 
@@ -115,24 +122,14 @@ Supplementary materials for the course of "Concepts of Modern Programming Langua
 * Checkout this repository to get all examples
 
 
-## Lesson 9 - 11th December 2023
-### Agenda
-* Typescript (Tomas Petricek – guest lecture)
-
-### Preparation
-
-### Resources
-
-
 ## Lesson 10 - 18th December 2023
 ### Agenda
-* Backup/Typescript (Tomas Petricek – guest lecture)
+* Advanced types in TypeScript (Tomas Petricek – guest lecture)
 
 ### Preparation
+* If you do not have Node.js installed, get the LTS version from https://nodejs.org (but any reasonably recent version should work)
+* We will use Vite.js framework, which is installed via npm (Node package manager). To test if things work for you, run `npm create vite@latest` as explained in https://vitejs.dev/guide/
+* Enter project name, select Vanilla, TypeScript and follow printed instructions to run the project.
+* You will need an editor that does checking in background. Visual Studio Code is a good choice, but anything will do. 
 
 ### Resources
-
-
-
-
-
